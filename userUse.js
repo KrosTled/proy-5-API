@@ -12,7 +12,7 @@ const app = express()
 
 app.use(express.json())
 
-const validateJwt = expressJwt({secret: process.env.SECRET, algorithms: 'HS256' });
+const validateJwt = expressJwt({secret: process.env.SECRET, algorithms: ['HS256'] });
 const signToken = (_id) => jwt.sign({_id}, process.env.JWTENCRYPT)
 
 const findAndAssignUser = async (req, res, next) =>{
