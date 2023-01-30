@@ -13,7 +13,7 @@ const app = express()
 app.use(express.json())
 
 const validateJwt = expressJwt({secret: process.env.SECRET, algorithms: ['HS256'] });
-const signToken = (_id) => jwt.sign({_id}, process.env.JWTENCRYPT)
+const signToken = (_id) => jwt.sign({_id}, process.env.SECRET)
 
 const findAndAssignUser = async (req, res, next) =>{
     try {
@@ -48,7 +48,7 @@ const Auth = {
                 }
             }
         }catch(err){
-            res.status(500),send(err.message)
+            res.status(500).send(err.message)
         }
     },
     register: async (req, res) => {
@@ -60,12 +60,12 @@ const Auth = {
                 }else{
                     const salt = await bcrypt.genSalt();
                     const hashed = await bcrypt.hash(body.password, salt)
-                    const user = User.create({username: body.username, password:hashed, salt:salt})
+                    const user = await User.create({username: body.username, password:hashed, salt:salt})
                     const signed = signToken(user._id)
                     res.send(signed)
                 }
             }catch(err){
-                res.status(500),send(err.message)
+                res.status(500).send(err.message)
             }
         }
     
