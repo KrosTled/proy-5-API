@@ -14,7 +14,7 @@ app.get('/verify', estaAutenticada,async (req, res) => {
 app.use(express.static('app'))
 
 app.get('*', (req, res) => {
-	res.status(404).send('no esta solicitando nada')
+	res.status(404).send('No se ha encontrado nada en esta ruta y/o metodo')
 })
 
 app.listen(port, () => {
