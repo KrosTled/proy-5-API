@@ -1,8 +1,10 @@
 const express = require('express')
+const cors = require('cors');
 const { Auth, estaAutenticada } = require('./userUse')
 const app = express()
 const port = 3000
 
+app.use(cors())
 app.use(express.json())
 
 app.post('/login', Auth.login)
