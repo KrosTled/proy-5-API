@@ -42,7 +42,7 @@ const Auth = {
                 const isMatch = await bcrypt.compare(body.password, user.password)
                 if(isMatch){
                     const signed = signToken(user._id)
-                    res.status(200).send(signed)
+                    res.status(200).send({token: signed})
                 }else{
                     res.status(403).send('Usuario y/o contraseña inválida')
                 }
@@ -62,7 +62,7 @@ const Auth = {
                     const hashed = await bcrypt.hash(body.password, salt)
                     const user = await User.create({username: body.username, password:hashed, salt:salt})
                     const signed = signToken(user._id)
-                    res.send(signed)
+                    res.send({token: signed})
                 }
             }catch(err){
                 res.status(500).send(err.message)
