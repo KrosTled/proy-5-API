@@ -15,46 +15,6 @@ app.use(express.json())
 const validateJwt = expressJwt({secret: process.env.JWTENCRYPT, algorithms: [process.env.JWTENCRYPTALG] });
 const signToken = (_id) => jwt.sign({_id}, process.env.JWTENCRYPT)
 
-// app.post('/register', async (req, res) => {
-//     const {body} = req
-//     console.log({body})
-//     try{
-//         const isUser = await User.findOne({ username: body.username})
-//         if(isUser){
-//             return res.status(403).send('Usuario ya existe.')
-//         }
-//         const salt = await bcrypt.genSalt();
-//         const hashed = await bcrypt.hash(body.password, salt)
-//         const user = User.create({username: body.username, password:hashed, salt:salt})
-//         const signed = signToken(user._id)
-//         res.send(signed)
-//     }catch(err){
-//         console.log(err)
-//         res.status(500),send(err.message)
-//     }
-// })
-
-// app.post('/login', async (req, res) => {
-//     const {body} = req
-//     try{
-//         const user = await User.findOne({ username: body.username})
-//         if(!user){
-//             res.status(403).send('Usuario y/o contraseña inválida')
-//         }else{
-//             const isMatch = await bcrypt.compare(body.password, user.password)
-//             if(isMatch){
-//                 const signed = signToken(user._id)
-//                 res.status(200).send(signed)
-//             }else{
-//                 res.status(403).send('Usuario y/o contraseña inválida')
-//             }
-//         }
-//     }catch(err){
-//         console.log(err)
-//         res.status(500),send(err.message)
-//     }
-// })
-
 const findAndAssignUser = async (req, res, next) =>{
     try {
         const user = await User.findById(req.auth._id)
@@ -91,8 +51,7 @@ const Auth = {
             res.status(500),send(err.message)
         }
     },
-    register: async (req,res) => {
-        async (req, res) => {
+    register: async (req, res) => {
             const {body} = req
             try{
                 const isUser = await User.findOne({ username: body.username})
@@ -109,7 +68,7 @@ const Auth = {
                 res.status(500),send(err.message)
             }
         }
-    }
+    
 }
 
 module.exports = {Auth, estaAutenticada}
