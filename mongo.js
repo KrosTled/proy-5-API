@@ -9,7 +9,7 @@ const User = mongoose.model('User',{
     username: {type: String, required: true, minLength: 5},
     password: {type: String, required: true},
     salt: {type: String, required: true},
-    services: {type: String, required: false}
+    services: {type: JSON, required: false}
 });
 
 module.exports =  User;
