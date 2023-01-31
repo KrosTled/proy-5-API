@@ -9,6 +9,7 @@ app.use(express.json())
 
 app.post('/login', Auth.login)
 app.post('/register', Auth.register)
+app.patch('/updateService', Auth.updateService)
 app.get('/verify', estaAutenticada,async (req, res) => {
     res.send(req.auth)
 } )

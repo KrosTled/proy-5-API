@@ -60,14 +60,21 @@ const Auth = {
                 }else{
                     const salt = await bcrypt.genSalt();
                     const hashed = await bcrypt.hash(body.password, salt)
-                    const user = await User.create({username: body.username, password:hashed, salt:salt, services: {"deepLearn": false, "entrenamiento": false, "analisis": false, "equipo": false}})
+                    const user = await User.create({username: body.username, password:hashed, salt:salt, deepLearn: false, entrenamiento: false, analisis: false, equipo: false})
                     const signed = signToken(user._id)
                     res.send({token: signed})
                 }
             }catch(err){
                 res.status(500).send(err.message)
             }
-        }
+    },
+    updateService: async(req,res)=>{
+        const id = jwt.decode(req.body.token)
+        const user = await User.findById(id._id)
+        user[req.body.service] =  !user[req.body.service]
+        await user.save()
+        res.sendStatus(204)
+    }
     
 }
 
