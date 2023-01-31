@@ -60,7 +60,7 @@ const Auth = {
                 }else{
                     const salt = await bcrypt.genSalt();
                     const hashed = await bcrypt.hash(body.password, salt)
-                    const user = await User.create({username: body.username, password:hashed, salt:salt, services: {"1": false, "2": false, "3": false, "4": false}})
+                    const user = await User.create({username: body.username, password:hashed, salt:salt, services: {"deepLearn": false, "entrenamiento": false, "analisis": false, "equipo": false}})
                     const signed = signToken(user._id)
                     res.send({token: signed})
                 }
